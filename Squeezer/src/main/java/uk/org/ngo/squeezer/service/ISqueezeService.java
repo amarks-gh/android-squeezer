@@ -32,6 +32,7 @@ import uk.org.ngo.squeezer.model.Album;
 import uk.org.ngo.squeezer.model.Artist;
 import uk.org.ngo.squeezer.model.Genre;
 import uk.org.ngo.squeezer.model.MusicFolderItem;
+import uk.org.ngo.squeezer.model.CustomBrowseItem;
 import uk.org.ngo.squeezer.model.Player;
 import uk.org.ngo.squeezer.model.PlayerState;
 import uk.org.ngo.squeezer.model.Playlist;
@@ -193,6 +194,9 @@ public interface ISqueezeService {
 
     // MusicFolder list
     void musicFolders(int start, MusicFolderItem musicFolderItem, IServiceItemListCallback<MusicFolderItem> callback) throws SqueezeService.HandshakeNotCompleteException;
+
+    // CustomBrowse list
+    void customBrowse(String cmd, int start, CustomBrowseItem item, IServiceItemListCallback<CustomBrowseItem> callback) throws SqueezeService.HandshakeNotCompleteException;
 
     // Song list
     void songs(IServiceItemListCallback<Song> callback, int start, String sortOrder, String searchString, FilterItem... filters) throws SqueezeService.HandshakeNotCompleteException;

@@ -46,6 +46,7 @@ import uk.org.ngo.squeezer.itemlist.ArtistListActivity;
 import uk.org.ngo.squeezer.itemlist.FavoriteListActivity;
 import uk.org.ngo.squeezer.itemlist.GenreListActivity;
 import uk.org.ngo.squeezer.itemlist.MusicFolderListActivity;
+import uk.org.ngo.squeezer.itemlist.CustomBrowseListActivity;
 import uk.org.ngo.squeezer.itemlist.PlaylistsActivity;
 import uk.org.ngo.squeezer.itemlist.RadioListActivity;
 import uk.org.ngo.squeezer.itemlist.SongListActivity;
@@ -71,15 +72,17 @@ public class HomeActivity extends BaseActivity {
 
     private static final int MUSIC_FOLDER = 6;
 
-    private static final int RANDOM_MIX = 7;
+    private static final int CUSTOM_BROWSE = 7;
 
-    private static final int PLAYLISTS = 8;
+    private static final int RANDOM_MIX = 8;
 
-    private static final int INTERNET_RADIO = 9;
+    private static final int PLAYLISTS = 9;
 
-    private static final int FAVORITES = 10;
+    private static final int INTERNET_RADIO = 10;
 
-    private static final int MY_APPS = 11;
+    private static final int FAVORITES = 11;
+
+    private static final int MY_APPS = 12;
 
     private boolean mCanFavorites = false;
 
@@ -88,6 +91,8 @@ public class HomeActivity extends BaseActivity {
     private boolean mCanMyApps = false;
 
     private boolean mCanRandomplay = false;
+
+    private boolean mCanCustomBrowse = false;
 
     private ListView listView;
 
@@ -136,7 +141,9 @@ public class HomeActivity extends BaseActivity {
                 R.drawable.ic_artists,
                 R.drawable.ic_albums, R.drawable.ic_songs,
                 R.drawable.ic_genres, R.drawable.ic_years, R.drawable.ic_new_music,
-                R.drawable.ic_music_folder, R.drawable.ic_random,
+                R.drawable.ic_music_folder,
+                R.drawable.ic_music_folder, //custom browse
+                R.drawable.ic_random,
                 R.drawable.ic_playlists, R.drawable.ic_internet_radio,
                 R.drawable.ic_favorites, R.drawable.ic_my_apps
         };
@@ -148,10 +155,15 @@ public class HomeActivity extends BaseActivity {
             mCanMusicfolder = event.canMusicFolders;
             mCanMyApps = event.canMyApps;
             mCanRandomplay = event.canRandomPlay;
+            mCanCustomBrowse = event.canCustomBrowse;
         }
 
         List<IconRowAdapter.IconRow> rows = new ArrayList<IconRowAdapter.IconRow>(MY_APPS + 1);
         for (int i = ARTISTS; i <= MY_APPS; i++) {
+            if (i == CUSTOM_BROWSE && !mCanCustomBrowse) {
+                continue;
+            }
+
             if (i == MUSIC_FOLDER && !mCanMusicfolder) {
                 continue;
             }
@@ -198,6 +210,8 @@ public class HomeActivity extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            //Log.e(TAG, "HomeActivity: Clicked item " + id);
+
             switch ((int) id) {
                 case ARTISTS:
                     ArtistListActivity.show(HomeActivity.this);
@@ -217,6 +231,9 @@ public class HomeActivity extends BaseActivity {
                 case NEW_MUSIC:
                     AlbumListActivity.show(HomeActivity.this,
                             AlbumViewDialog.AlbumsSortOrder.__new);
+                    break;
+                case CUSTOM_BROWSE:
+                    CustomBrowseListActivity.show(HomeActivity.this);
                     break;
                 case MUSIC_FOLDER:
                     MusicFolderListActivity.show(HomeActivity.this);

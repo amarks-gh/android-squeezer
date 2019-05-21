@@ -430,6 +430,7 @@ of your accepting any such warranty or additional liability.&lt;/p&gt;</string>
     <string name="home_item_years">Years</string>
     <string name="home_item_new_music">New Music</string>
     <string name="home_item_music_folder">Music Folder</string>
+    <string name="home_item_custom_browse">Custom Browse</string>
     <string name="home_item_random_mix">Random mix</string>
     <string name="home_item_playlists">Playlists</string>
     <string name="home_item_radios">Internet Radio</string>

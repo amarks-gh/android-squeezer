@@ -34,6 +34,7 @@ import uk.org.ngo.squeezer.itemlist.dialog.AlbumViewDialog;
 import uk.org.ngo.squeezer.itemlist.dialog.SongViewDialog;
 import uk.org.ngo.squeezer.model.Album;
 import uk.org.ngo.squeezer.model.MusicFolderItem;
+import uk.org.ngo.squeezer.model.CustomBrowseItem;
 import uk.org.ngo.squeezer.model.Song;
 
 public final class Preferences {
@@ -262,6 +263,7 @@ public final class Preferences {
         String key = null;
         if (clazz == Song.class) key = KEY_ON_SELECT_SONG_ACTION; else
         if (clazz == MusicFolderItem.class) key = KEY_ON_SELECT_SONG_ACTION; else
+            if (clazz == CustomBrowseItem.class) key = KEY_ON_SELECT_SONG_ACTION; else
         if (clazz == Album.class) key = KEY_ON_SELECT_ALBUM_ACTION;
         if (key == null) {
             throw new IllegalArgumentException("Default action for class '" + clazz + " is not supported");

@@ -87,6 +87,8 @@ public class ConnectionState {
 
     private final AtomicBoolean canRandomplay = new AtomicBoolean(false);
 
+    private final AtomicBoolean canCustomBrowse = new AtomicBoolean(false);
+
     private final AtomicReference<String> serverVersion = new AtomicReference<String>();
 
     private final AtomicReference<String> preferredAlbumSort = new AtomicReference<String>("album");
@@ -193,6 +195,12 @@ public class ConnectionState {
     boolean canRandomplay() {
         return canRandomplay.get();
     }
+
+    void setCanCustomBrowse(boolean value) {
+        canCustomBrowse.set(value);
+    }
+
+    boolean canCustomBrowse() { return canCustomBrowse.get();}
 
     public void setServerVersion(String version) {
         serverVersion.set(version);

@@ -53,6 +53,7 @@ import uk.org.ngo.squeezer.model.Album;
 import uk.org.ngo.squeezer.model.Artist;
 import uk.org.ngo.squeezer.model.Genre;
 import uk.org.ngo.squeezer.model.MusicFolderItem;
+import uk.org.ngo.squeezer.model.CustomBrowseItem;
 import uk.org.ngo.squeezer.model.Player;
 import uk.org.ngo.squeezer.model.PlayerState;
 import uk.org.ngo.squeezer.model.Playlist;
@@ -279,6 +280,14 @@ class CliClient implements IClient {
                         "musicfolder",
                         new HashSet<String>(Arrays.asList("folder_id", "url", "tags", "charset")),
                         new MusicFolderListHandler()
+                )
+        );
+        list.add(
+                new ExtendedQueryFormatCmd(
+                        HANDLER_LIST_PREFIXED_PLAYER_SPECIFIC,
+                        "browse", //custombrowse actuall, but need to do this to fit framework
+                        new HashSet<String>(),
+                        new SqueezeParserInfo("maxCount", new BaseListHandler<CustomBrowseItem>(){}, "level")
                 )
         );
         list.add(
@@ -1006,6 +1015,9 @@ class CliClient implements IClient {
                     connectionState
                             .setCanRandomplay(Util.parseDecimalIntOrZero(tokens.get(2)) == 1);
                 }
+                if ("custombrowse".equals(tokens.get(1)) && tokens.size() >= 4) {
+                    connectionState.setCanCustomBrowse(Util.parseDecimalIntOrZero(tokens.get(3)) == 1);
+                }
             }
         });
         handlers.put("getstring", new CmdHandler() {
@@ -1048,7 +1060,7 @@ class CliClient implements IClient {
                 mEventBus.postSticky(new HandshakeComplete(
                         connectionState.canFavorites(), connectionState.canMusicfolder(),
                         connectionState.canMusicfolder(), connectionState.canRandomplay(),
-                        version));
+                        connectionState.canCustomBrowse(), version));
             }
         });
 
@@ -1478,6 +1490,7 @@ class CliClient implements IClient {
                 "can randomplay ?", // learn random play function functionality
                 "can favorites items ?", // learn support for "Favorites" plugin
                 "can myapps items ?", // learn support for "MyApps" plugin
+                "can custombrowse browse ?", //learn support for custombrowse plugin
                 "pref httpport ?", // learn the HTTP port (needed for images)
                 "pref jivealbumsort ?", // learn the preferred album sort order
                 "pref mediadirs ?", // learn the base path(s) of the server music library

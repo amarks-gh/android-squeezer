@@ -87,6 +87,7 @@ import uk.org.ngo.squeezer.model.Album;
 import uk.org.ngo.squeezer.model.Artist;
 import uk.org.ngo.squeezer.model.Genre;
 import uk.org.ngo.squeezer.model.MusicFolderItem;
+import uk.org.ngo.squeezer.model.CustomBrowseItem;
 import uk.org.ngo.squeezer.model.Player;
 import uk.org.ngo.squeezer.model.PlayerState;
 import uk.org.ngo.squeezer.model.Playlist;
@@ -1676,6 +1677,33 @@ public class SqueezeService extends Service implements ServiceCallbackList.Servi
             }
 
             cli.requestItems("musicfolder", start, parameters, callback);
+        }
+
+        public void customBrowse(String cmd, int start, CustomBrowseItem item, IServiceItemListCallback<CustomBrowseItem> callback) throws HandshakeNotCompleteException {
+            if (!mHandshakeComplete) {
+                throw new HandshakeNotCompleteException("Handshake with server has not completed.");
+            }
+
+            List<String> parameters = new ArrayList<String>();
+            if (null != item)
+                item.getRequestParameters(parameters);
+
+            if ("browse".equals(cmd)) {
+                //Since custombrowse doesn't report the number of items available, only the number
+                //returned, we trick the parser by hardcoding a huge value. Then will set the
+                //actually value later when we determine we have reached the end.
+                parameters.add("maxCount:100");
+
+                cli.requestItems("custombrowse "+ cmd, start, 20, parameters, callback);
+            } else {
+                StringBuilder sb = new StringBuilder();
+                sb.append("custombrowse ");
+                sb.append(cmd);
+                for (String s : parameters)
+                    sb.append(" ").append(Util.encode(s));
+
+                cli.sendPlayerCommand(this.getActivePlayer(), sb.toString());
+            }
         }
 
         /* Start an async fetch of the SqueezeboxServer's songs */

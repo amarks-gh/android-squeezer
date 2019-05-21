@@ -26,6 +26,7 @@
         <item>@string/home_item_years</item>
         <item>@string/home_item_new_music</item>
         <item>@string/home_item_music_folder</item>
+        <item>@string/home_item_custom_browse</item>
         <item>@string/home_item_random_mix</item>
         <item>@string/home_item_playlists</item>
         <item>@string/home_item_radios</item>

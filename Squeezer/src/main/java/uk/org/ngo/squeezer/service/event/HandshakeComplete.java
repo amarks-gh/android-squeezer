@@ -32,15 +32,19 @@ public class HandshakeComplete {
     /** Does the server support the {@code randomplay} command? */
     public final boolean canRandomPlay;
 
+    public final boolean canCustomBrowse;
+
     /** Server version */
     public final String version;
 
     public HandshakeComplete(boolean canFavorites, boolean canMusicFolders,
-                             boolean canMyApps, boolean canRandomPlay, String version) {
+                             boolean canMyApps, boolean canRandomPlay,
+                             boolean canCustomBrowse, String version) {
         this.canFavorites = canFavorites;
         this.canMusicFolders = canMusicFolders;
         this.canMyApps = canMyApps;
         this.canRandomPlay = canRandomPlay;
+        this.canCustomBrowse = canCustomBrowse;
         this.version = version;
     }
 }
